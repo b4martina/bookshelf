@@ -36,7 +36,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name="OWNER_ID")
-   // @JsonIgnore
+    @JsonIgnore
     private User owner;
    /* @Column(name="OWNER_ID")
     private Long ownerId;

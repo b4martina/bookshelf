@@ -28,6 +28,7 @@ public class User {
     private String surname;
 
     @Column(name="PASSWORD")
+    @JsonIgnore
     private String password;
 
     public User(){}
