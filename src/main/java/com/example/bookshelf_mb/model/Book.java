@@ -1,6 +1,7 @@
 package com.example.bookshelf_mb.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,23 +26,29 @@ public class Book {
     private BookStatus status;
 
     @Column(name="READ_COUNT")
-    private int readCount;
+    private Integer readCount;
 
-    @Column(name="OWNER_ID")
+
+
+    @ManyToOne
+    @JoinColumn(name="OWNER_ID")
+   // @JsonIgnore
+    private User owner;
+   /* @Column(name="OWNER_ID")
     private Long ownerId;
-
+*/
     public Book(){}
 
-    public Book(Long id, String title, String author, BookStatus status, int readCount, Long owner_id) {
+    public Book(Long id, String title, String author, BookStatus status, Integer readCount, User owner) //changed user owner from long owner_id
+    {
         this.id = id;
         this.title = title;
         this.author = author;
         this.status = status;
         this.readCount = readCount;
-        this.ownerId = owner_id;
-    }
+this.owner=owner;    }
 
-
+/*
     public Long getId() {
         return id;
     }
@@ -81,12 +88,12 @@ public class Book {
     public void setReadCount(int readCount) {
         this.readCount = readCount;
     }
-
-    public Long getOwnerId() {
+*/
+  /*  public Long getOwnerId() {
         return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
-    }
+    }*/
 }
