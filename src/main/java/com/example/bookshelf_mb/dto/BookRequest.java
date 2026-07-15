@@ -1,8 +1,14 @@
 package com.example.bookshelf_mb.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class BookRequest {
+    @NotBlank(message = "Title cannot be empty") // Validation
     private String title;
+
+    @NotBlank(message = "Author cannot be empty") // Validation
     private String author;
+
 
     public BookRequest(){}
 

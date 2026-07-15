@@ -1,9 +1,11 @@
 package com.example.bookshelf_mb.controllers;
 
 
+import com.example.bookshelf_mb.dto.BookRequest;
 import com.example.bookshelf_mb.model.Book;
 import com.example.bookshelf_mb.model.BookStatus;
 import com.example.bookshelf_mb.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.spec.OAEPParameterSpec;
@@ -20,8 +22,10 @@ public class BookController {
     }
 
     @PostMapping("/user/{ownerId}")
-    public Book createBook(@RequestBody Book book, @PathVariable Long ownerId) {
-        return bookService.createBook(book, ownerId);
+    public Book createBook(@Valid @RequestBody BookRequest request,
+                           @PathVariable Long ownerId) {
+
+        return bookService.createBook(request, ownerId);
     }
 
     @GetMapping

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Table(name="BOOKS")
@@ -28,6 +30,8 @@ public class Book {
     @Column(name="READ_COUNT")
     private Integer readCount;
 
+    @Column(name = "CREATED_AT", nullable = false, updatable = false) //user can not modify creation time
+    private LocalDate createdAt;
 
 
     @ManyToOne

@@ -7,7 +7,9 @@ import com.example.bookshelf_mb.model.User;
 import com.example.bookshelf_mb.repository.BookRepository;
 import com.example.bookshelf_mb.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import com.example.bookshelf_mb.dto.BookRequest; // NEW
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,20 +23,39 @@ public BookService(BookRepository bookRepository, UserRepository userRepository)
 
 
     //creating a book/adding a new book
-    public Book createBook(Book book, Long ownerId){
-    Optional<User>optionalUser=userRepository.findById(ownerId);
+    public Book createBook(BookRequest request, Long ownerId){
 
-        if(optionalUser.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
+        User user = userRepository.findById(ownerId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Book book = new Book();
+
+        book.setTitle(request.getTitle());
+        book.setAuthor(request.getAuthor());
+
+        book.setOwner(user);
+        book.setStatus(BookStatus.PURCHASED);
+        book.setReadCount(0);
+        book.setCreatedAt(LocalDate.now()); //new feature, sets date
+        return bookRepository.save(book);
+
+
+       // if(optionalUser.isEmpty()) {
+         //   throw new RuntimeException("User not found");
+
+
+
+
+
+
 
    // if(optionalUser.isEmpty())
     //{return null;}
-    book.setOwner(optionalUser.get());
-    book.setStatus(BookStatus.PURCHASED);
-    book.setReadCount(0);
+   // book.setOwner(optionalUser.get());
+    //1book.setStatus(BookStatus.PURCHASED);
+    //1book.setReadCount(0);
 
-        return bookRepository.save(book);
+       //1 return bookRepository.save(book);
 
 }
 
@@ -107,6 +128,12 @@ public void deleteBook(Long id){
 
         return null;
     }
+
+
+
+
+
+
     public List<Book> getBooksByUser(Long ownerId){
         return bookRepository.findByOwnerId(ownerId);
     }//searching book using owners id
