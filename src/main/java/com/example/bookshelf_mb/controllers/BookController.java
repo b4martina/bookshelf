@@ -8,7 +8,6 @@ import com.example.bookshelf_mb.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.spec.OAEPParameterSpec;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +27,7 @@ public class BookController {
         return bookService.createBook(request, ownerId);
     }
 
-    @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
-    }
+
 
    /* @GetMapping("/{id}")
     public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
@@ -40,7 +36,7 @@ public class BookController {
 */
 
     @GetMapping("/{id}")
-    public Optional<Book>getBookById(@PathVariable Long id){
+    public Optional<Book> getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
@@ -72,11 +68,40 @@ public class BookController {
 
     @GetMapping("/author")
     public List<Book> author(@RequestParam String author) {
-        return bookService.searchByAuthor(author);}
+        return bookService.searchByAuthor(author);
+    }
 
     @GetMapping("/status/{status}")
-    public List<Book>getBookByStatus(@PathVariable BookStatus status){
+    public List<Book> getBookByStatus(@PathVariable BookStatus status) {
         return bookService.getBooksByStatus(status);
     }
 
+    @GetMapping("/readcount/{ownerId}")
+    public int title(@PathVariable Long ownerId) {
+        return bookService.getReadCount(ownerId);
     }
+
+
+    @GetMapping
+    public List<Book> getAllBooks()
+    {
+        return bookService.getAllBooks();
+    }
+
+
+
+/**@PostMapping("/user/{ownerId}") public Book createBook(@Valid @RequestBody BookRequest request,
+ @PathVariable Long ownerId) {
+
+ return bookService.createBook(request, ownerId);
+ }**/
+
+/**
+ *  @GetMapping("/{id}")
+ *     public Optional<Book> getBookById(@PathVariable Long id) {
+ *         return bookService.getBookById(id);
+ *     }
+ */
+
+
+}

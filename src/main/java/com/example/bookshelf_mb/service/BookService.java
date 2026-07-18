@@ -60,10 +60,6 @@ public BookService(BookRepository bookRepository, UserRepository userRepository)
 }
 
 //see all books
-public List<Book> getAllBooks(){
-    return bookRepository.findAll();
-}
-
 //get one book
 public Optional<Book> getBookById(Long id){
     return bookRepository.findById(id);
@@ -150,5 +146,15 @@ public void deleteBook(Long id){
     public List<Book> getBooksByStatus(BookStatus status) {
         return bookRepository.findByStatus(status);
     }
+
+    public int getReadCount(Long ownerId){
+    return bookRepository.findByReadCount(ownerId); //change made to find counter of user
+    }
+
+
+    public List<Book> getAllBooks(){
+        return bookRepository.findAll();
+    }
+//function to get all books
 
 }
