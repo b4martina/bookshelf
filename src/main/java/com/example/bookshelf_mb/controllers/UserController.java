@@ -1,5 +1,6 @@
 package com.example.bookshelf_mb.controllers;
 
+import com.example.bookshelf_mb.dto.UserBooksResponse;
 import com.example.bookshelf_mb.model.User;
 import com.example.bookshelf_mb.repository.UserRepository;
 import com.example.bookshelf_mb.service.UserService;
@@ -41,6 +42,14 @@ public List<User> getAllUsers (){
 @DeleteMapping ("/{id}")
     public void deleteUser(@PathVariable Long id){
 userService.deleteUser(id);
+    }
+
+
+
+
+    @GetMapping("/all-books")
+    public List<UserBooksResponse> getUsersWithBooks(){
+        return userService.getUsersWithBooks();
     }
 
 }

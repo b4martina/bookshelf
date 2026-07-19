@@ -2,10 +2,13 @@ package com.example.bookshelf_mb.service;
 
 
 import com.example.bookshelf_mb.dto.LogInRequest;
+import com.example.bookshelf_mb.dto.UserBooksResponse;
+import com.example.bookshelf_mb.model.Book;
 import com.example.bookshelf_mb.model.User;
 import com.example.bookshelf_mb.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +72,27 @@ public void deleteUser(Long id){
 
         return user.getPassword().equals(request.getPassword());
     }
+//change 2 after ubr
+    public List<UserBooksResponse> getUsersWithBooks(){
+     List<User> users=userRepository.findAll();
+     List<UserBooksResponse> userBooksResponses=new ArrayList<>();
 
+for(User user : users)   {
+UserBooksResponse ubr = new UserBooksResponse();
+ubr.setName(user.getName());
+ubr.setSurname(user.getSurname());
+
+List <String> bookTitles = new ArrayList<>();
+        for (Book book: user.getBooks()){
+            bookTitles.add(book.getTitle());
+
+        }
+ubr.setBooks(bookTitles);
+        userBooksResponses.add(ubr);
+
+
+}
+return userBooksResponses;
+    }
 
 }
