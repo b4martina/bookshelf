@@ -1,6 +1,7 @@
 package com.example.bookshelf_mb.service;
 
 
+import com.example.bookshelf_mb.dto.UserFullBookResponse;
 import com.example.bookshelf_mb.model.Book;
 import com.example.bookshelf_mb.model.BookStatus;
 import com.example.bookshelf_mb.model.User;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.bookshelf_mb.dto.BookRequest; // NEW
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,25 +40,6 @@ public BookService(BookRepository bookRepository, UserRepository userRepository)
         book.setReadCount(0);
         book.setCreatedAt(LocalDate.now()); //new feature, sets date
         return bookRepository.save(book);
-
-
-       // if(optionalUser.isEmpty()) {
-         //   throw new RuntimeException("User not found");
-
-
-
-
-
-
-
-   // if(optionalUser.isEmpty())
-    //{return null;}
-   // book.setOwner(optionalUser.get());
-    //1book.setStatus(BookStatus.PURCHASED);
-    //1book.setReadCount(0);
-
-       //1 return bookRepository.save(book);
-
 }
 
 //see all books
@@ -157,6 +140,26 @@ public void deleteBook(Long id){
     }
 //function to get all books
 
+    public List<UserFullBookResponse> getAllBooksWithUsers(){
+    List<Book> books = bookRepository.findAll();
+
+    List<UserFullBookResponse> userFullBookResponses = new ArrayList<>();
+
+
+    for (Book book : books){
+        UserFullBookResponse ufbr = new UserFullBookResponse();
+
+        ufbr.setId(book.getId());
+        ufbr.setTitle(book.getTitle());
+        ufbr.setAuthor(book.getAuthor());
+        ufbr.setStatus(book.getStatus());
+        ufbr.setName(book.getOwner().getName());
+        ufbr.setSurname(book.getOwner().getSurname());
+       userFullBookResponses.add(ufbr);
+        }
+
+return userFullBookResponses;
+}
 
 
 

@@ -2,9 +2,11 @@ package com.example.bookshelf_mb.controllers;
 
 
 import com.example.bookshelf_mb.dto.BookRequest;
+import com.example.bookshelf_mb.dto.UserFullBookResponse;
 import com.example.bookshelf_mb.model.Book;
 import com.example.bookshelf_mb.model.BookStatus;
 import com.example.bookshelf_mb.service.BookService;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,7 +90,10 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-
+    @GetMapping("/owners")
+    public List<UserFullBookResponse> getAllBooksWithUsers(){
+        return bookService.getAllBooksWithUsers();
+    }
 
 
 /**@PostMapping("/user/{ownerId}") public Book createBook(@Valid @RequestBody BookRequest request,
