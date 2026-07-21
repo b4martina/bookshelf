@@ -1,6 +1,8 @@
 package com.example.bookshelf_mb.service;
 
 
+import com.example.bookshelf_mb.dto.TestBUR;
+import com.example.bookshelf_mb.dto.UserBooksResponse;
 import com.example.bookshelf_mb.dto.UserFullBookResponse;
 import com.example.bookshelf_mb.model.Book;
 import com.example.bookshelf_mb.model.BookStatus;
@@ -112,10 +114,8 @@ public void deleteBook(Long id){
 
 
 
-
-    public List<Book> getBooksByUser(Long ownerId){
-        return bookRepository.findByOwnerId(ownerId);
-    }//searching book using owners id
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //searching book using owners id
 
     public List<Book> searchByTitle(String title){
         return bookRepository.findByTitle(title);
@@ -145,7 +145,6 @@ public void deleteBook(Long id){
 
     List<UserFullBookResponse> userFullBookResponses = new ArrayList<>();
 
-
     for (Book book : books){
         UserFullBookResponse ufbr = new UserFullBookResponse();
 
@@ -159,6 +158,77 @@ public void deleteBook(Long id){
         }
 
 return userFullBookResponses;
+}
+
+
+    public List<Book> getBooksByUser(Long ownerId){
+        return bookRepository.findByOwnerId(ownerId);
+
+
+}
+
+//given a book id, find the user
+    public TestBUR getTestBUR(Long id){
+        Book book;
+    book= bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Book not found"));
+    TestBUR testBUR = new TestBUR();
+
+        User user;
+      user=book.getOwner();
+
+
+
+    testBUR.setTitle(book.getTitle());
+    testBUR.setAuthor(book.getAuthor());
+    testBUR.setName(user.getName());
+    testBUR.setSurname(user.getSurname());
+
+    return testBUR;
+
+    }
+
+
+    //1
+public List<UserBooksResponse> getReadBooks (){
+    //BookStatus bookStatus;
+
+    List <UserBooksResponse> booksResponse= new ArrayList<>();
+           // bookRepository.findByReadBooks(bookStatus);
+
+
+    List<User> users;
+    users = userRepository.findAll();//.orElseThrow(()->new RuntimeException("user not found"));
+
+    for (User user:users){
+        UserBooksResponse ubr = new UserBooksResponse();
+        ubr.setName(user.getName());
+        ubr.setSurname(user.getSurname());
+
+        List<String> readBooks = new ArrayList<>();
+
+        for (Book book : user.getBooks()){
+            if (book.getStatus() == BookStatus.READ){
+                readBooks.add(
+                       "Id:"+ book.getId() + "   Status:" +
+                        book.getStatus() + "    Author: " +
+                        book.getAuthor() + "     Title: " +
+                        book.getTitle() + "      Created At: " +
+                        book.getCreatedAt());
+            }
+
+            }
+    ubr.setBooks(readBooks)
+    ;
+        booksResponse.add(ubr);
+    }
+
+    return booksResponse;
+}
+
+
+public List<Book> getReadBooksOfUser(Long userId){
+    return bookRepository.findReadBooksOfUser(userId);
+
 }
 
 

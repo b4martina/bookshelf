@@ -2,11 +2,12 @@ package com.example.bookshelf_mb.controllers;
 
 
 import com.example.bookshelf_mb.dto.BookRequest;
+import com.example.bookshelf_mb.dto.TestBUR;
+import com.example.bookshelf_mb.dto.UserBooksResponse;
 import com.example.bookshelf_mb.dto.UserFullBookResponse;
 import com.example.bookshelf_mb.model.Book;
 import com.example.bookshelf_mb.model.BookStatus;
 import com.example.bookshelf_mb.service.BookService;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,11 +57,7 @@ public class BookController {
     public Book removeBook(@PathVariable Long id) {
         return bookService.removeBook(id);
     }
-
-    @GetMapping("/user/{ownerId}")
-    public List<Book> getBooksByUser(@PathVariable Long ownerId) {
-        return bookService.getBooksByUser(ownerId);
-    }
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     @GetMapping("/title")
     public List<Book> title(@RequestParam String title) {
@@ -96,6 +93,12 @@ public class BookController {
     }
 
 
+
+
+
+
+
+
 /**@PostMapping("/user/{ownerId}") public Book createBook(@Valid @RequestBody BookRequest request,
  @PathVariable Long ownerId) {
 
@@ -108,6 +111,29 @@ public class BookController {
  *         return bookService.getBookById(id);
  *     }
  */
+
+@GetMapping("/user/{ownerId}")
+public List<Book> getBooksByUser(@PathVariable Long ownerId) {
+    return bookService.getBooksByUser(ownerId);
+}
+
+
+
+@GetMapping("/find-user/{id}")
+    public TestBUR getTestBUR(@PathVariable Long id){
+    return bookService.getTestBUR(id);
+    }
+//1
+@GetMapping("/all-read-and-users")
+    public List<UserBooksResponse> getAllReadBooks (){
+    return bookService.getReadBooks();
+}
+
+    //2
+    @GetMapping("/books-of-one-user/{id}")
+    public List<Book> getReadBooksOfUser (@PathVariable Long id){
+    return bookService.getReadBooksOfUser(id);
+    }
 
 
 }

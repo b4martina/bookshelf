@@ -52,4 +52,12 @@ userService.deleteUser(id);
         return userService.getUsersWithBooks();
     }
 
+@GetMapping("/books-of-one-user/{id}")
+    public UserBooksResponse getUserBookResponse(@PathVariable Long id){
+        return userService.getUserBookResponse(id);}
+
+
+
 }
+
+
